@@ -1,10 +1,12 @@
-from .control import Control
-from .detect import Detect
-from .lcd import Lcd
+# from control import Control
+from detect import Detect
+from lcd import Lcd
+
+import cv2
 
 class Brain(object):
     def __init__(self):
-        self.control = Control()
+        # self.control = Control()
         self.det = Detect()
 
     def location_judge(self,location:list):
@@ -25,8 +27,12 @@ class Brain(object):
 
     def start(self):
         while True:
-            ret, self.frame = self.cap.read()
-            ball_exisit , location = self.det.get_yolo_result(self.frame)
-            if ball_exisit:
-                self.location_judge(location)
+            ret, self.frame = self.det.cap.read()
+            cv2.imshow("frame",self.frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+            # ball_exisit , location = self.det.get_yolo_result(self.frame)
+            # if ball_exisit:
+            #     self.location_judge(location)
 
